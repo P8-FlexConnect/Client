@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<DataTemplate
+    x:Class="CompOff_App.Templates.LocationCardTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="[components ]clr-namespace:CompOff_App.Components"
+    xmlns:converters="clr-namespace:CompOff_App.Converters"
+    xmlns:models="clr-namespace:Models;assembly=Models"
+    xmlns:viewmodels="clr-namespace:Viewmodels.Tabs;assembly=Viewmodels"
+    x:DataType="models:Location">
+    <Border
+        Margin="5,0"
+        Padding="15,15,15,5"
+        BackgroundColor="{StaticResource Light}"
+        Stroke="{StaticResource Light}"
+        StrokeShape="RoundRectangle 8"
+        StrokeThickness="1"
+        WidthRequest="180">
+        <Grid ColumnDefinitions="*" RowDefinitions="*,auto,auto,auto">
+            <Border
+                Grid.Row="0"
+                Padding="0"
+                BackgroundColor="Transparent"
+                HeightRequest="140"
+                Stroke="Transparent"
+                StrokeShape="RoundRectangle 70"
+                WidthRequest="140">
+                <Image
+                    Aspect="AspectFill"
+                    HorizontalOptions="Fill"
+                    Source="Resources/Images/Sample.jpg" />
+            </Border>
+            <Label
+                Grid.Row="1"
+                Margin="0,5,0,0"
+                FontAttributes="Bold"
+                FontSize="22"
+                HorizontalOptions="CenterAndExpand"
+                HorizontalTextAlignment="Center"
+                LineBreakMode="WordWrap"
+                Text="{Binding Name}"
+                TextColor="{StaticResource Primary}" />
+            <Label
+                Grid.Row="3"
+                Margin="0,2,0,0"
+                FontSize="14"
+                HorizontalOptions="CenterAndExpand"
+                HorizontalTextAlignment="Center"
+                Text="{Binding Distance, StringFormat='About {0:F2} km away'}"
+                TextColor="Black" />
+        </Grid>
+    </Border>
+</DataTemplate>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CompOff_App.Pages.Tabs.NewJobPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:CompOff_App.Components"
+    xmlns:effects="clr-namespace:Xamarin.CommunityToolkit.Ports.Effects"
+    xmlns:viewModels="clr-namespace:CompOff_App.Viewmodels.Tabs"
+    x:Name="this"
+    Title="NewJobPage">
+    <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, auto, *" VerticalOptions="Fill">
+        <components:NavigationBarPrimary
+            Firstname="{Binding CurrentUser.FirstName}"
+            Initials="{Binding CurrentUser.Initials}"
+            Lastname="{Binding CurrentUser.LastName}" />
+        <Label
+            Grid.Row="1"
+            Margin="20,10"
+            FontSize="26"
+            Text="New Job"
+            TextColor="Black"
+            VerticalOptions="End" />
+
+        <Label
+            Grid.Row="2"
+            Margin="20,5"
+            FontSize="22"
+            Text="Title"
+            TextColor="Black"
+            VerticalOptions="End" />
+
+        <BoxView
+            Grid.Row="3"
+            Margin="20,0"
+            StyleClass="Separator" />
+
+        <Entry
+            x:Name="TitleEditor"
+            Grid.Row="4"
+            Margin="20,0,20,0"
+            FontSize="16"
+            HorizontalOptions="Fill"
+            Placeholder="Enter Job Title..."
+            PlaceholderColor="{StaticResource Gray300}"
+            TextColor="{StaticResource Gray500}"
+            VerticalTextAlignment="End" />
+
+        <BoxView
+            Grid.Row="5"
+            Margin="20,0"
+            StyleClass="Separator" />
+
+        <!--  Title error  -->
+        <HorizontalStackLayout
+            Grid.Row="6"
+            Margin="20,0"
+            BackgroundColor="#FFE8E8"
+            IsVisible="{Binding ShowTitleError}"
+            Spacing="5">
+            <BoxView WidthRequest="5" Color="Red" />
+            <Image Margin="0,5">
+                <Image.Source>
+                    <FontImageSource
+                        FontFamily="MaterialIconsOutlined"
+                        Glyph="&#xe002;"
+                        Size="16"
+                        Color="Red" />
+                </Image.Source>
+            </Image>
+            <Label
+                Margin="0,5"
+                Text="Please provide a job title"
+                TextColor="Red" />
+        </HorizontalStackLayout>
+
+        <Label
+            Grid.Row="7"
+            Margin="20,5"
+            FontSize="22"
+            Text="Description"
+            TextColor="Black"
+            VerticalOptions="End" />
+
+        <BoxView
+            Grid.Row="8"
+            Margin="20,0"
+            StyleClass="Separator" />
+
+        <Editor
+            x:Name="DescriptionEditor"
+            Grid.Row="9"
+            Margin="20,0,20,0"
+            AutoSize="TextChanges"
+            FontSize="16"
+            HorizontalOptions="Fill"
+            MinimumHeightRequest="75"
+            Placeholder="Enter Job Description..."
+            PlaceholderColor="{StaticResource Gray300}"
+            TextColor="{StaticResource Gray500}" />
+
+        <BoxView
+            Grid.Row="10"
+            Margin="20,0"
+            StyleClass="Separator" />
+
+        <!--  Description Error  -->
+        <HorizontalStackLayout
+            Grid.Row="11"
+            Margin="20,0"
+            BackgroundColor="#FFE8E8"
+            IsVisible="{Binding ShowDescriptionError}"
+            Spacing="5">
+            <BoxView WidthRequest="5" Color="Red" />
+            <Image Margin="0,5">
+                <Image.Source>
+                    <FontImageSource
+                        FontFamily="MaterialIconsOutlined"
+                        Glyph="&#xe002;"
+                        Size="16"
+                        Color="Red" />
+                </Image.Source>
+            </Image>
+            <Label
+                Margin="0,5"
+                Text="Please provide a job description"
+                TextColor="Red" />
+        </HorizontalStackLayout>
+
+        <Label
+            Grid.Row="12"
+            Margin="20,5"
+            FontSize="22"
+            Text="Files"
+            TextColor="Black"
+            VerticalOptions="End" />
+        <HorizontalStackLayout Grid.Row="13">
+            <components:IconButton
+                Margin="20,5"
+                Command="{Binding PickFileCommand}"
+                Glyph="&#xf09b;"
+                ShowTrailingIcon="True"
+                Text="Upload" />
+            <Label
+                Margin="0,5,20,5"
+                FontSize="18"
+                Text="{Binding FileName}"
+                TextColor="{StaticResource Gray500}"
+                VerticalOptions="End" />
+        </HorizontalStackLayout>
+
+        <!--  File Error  -->
+        <HorizontalStackLayout
+            Grid.Row="14"
+            Margin="20,0"
+            BackgroundColor="#FFE8E8"
+            IsVisible="{Binding ShowFileError}"
+            Spacing="5">
+            <BoxView WidthRequest="5" Color="Red" />
+            <Image Margin="0,5">
+                <Image.Source>
+                    <FontImageSource
+                        FontFamily="MaterialIconsOutlined"
+                        Glyph="&#xe002;"
+                        Size="16"
+                        Color="Red" />
+                </Image.Source>
+            </Image>
+            <Label
+                Margin="0,5"
+                Text="Please provide a file"
+                TextColor="Red" />
+        </HorizontalStackLayout>
+
+        <components:IconButtonSecondary
+            x:Name="AddButton"
+            Grid.Row="15"
+            Margin="20,20"
+            BorderRadius="20"
+            Glyph="&#xe145;"
+            HorizontalOptions="End"
+            ShowTrailingIcon="True"
+            Text="Add Job"
+            VerticalOptions="End" />
+    </Grid>
+</ContentPage>

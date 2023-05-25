@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:CompOff_App.Converters">
+
+    <converters:DateToDayAndMonthStringConverter x:Key="DateToDayAndMonthStringConverter" />
+    <converters:JobStatusToStringConverter x:Key="JobStatusToStringConverter" />
+    <converters:StatusToColorConverter x:Key="StatusToColorConverter" />
+    <converters:StatusToGlyphConverter x:Key="StatusToGlyphConverter" />
+    <converters:DateToFullDatetimeStringConverter x:Key="DateToFullDatetimeStringConverter" />
+</ResourceDictionary>

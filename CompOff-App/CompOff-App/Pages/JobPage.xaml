@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CompOff_App.Pages.JobPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:CompOff_App.Components"
+    xmlns:models="clr-namespace:Models;assembly=Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModels="clr-namespace:Viewmodels;assembly=Viewmodels"
+    x:Name="this"
+    Title="JobPage"
+    x:DataType="viewModels:JobPageViewModel"
+    Shell.NavBarIsVisible="False"
+    Shell.PresentationMode="Animated"
+    Shell.TabBarIsVisible="False">
+    <Grid RowDefinitions="*">
+        <Grid
+            BackgroundColor="Transparent"
+            HorizontalOptions="FillAndExpand"
+            IsVisible="{Binding IsPreparing}"
+            RowDefinitions="*"
+            VerticalOptions="FillAndExpand"
+            ZIndex="10">
+            <BoxView
+                x:Name="Backdrop"
+                BackgroundColor="Black"
+                Opacity="0.6"
+                VerticalOptions="FillAndExpand"
+                ZIndex="11" />
+            <ActivityIndicator
+                HorizontalOptions="FillAndExpand"
+                IsRunning="{Binding IsPreparing}"
+                IsVisible="{Binding IsPreparing}"
+                VerticalOptions="CenterAndExpand"
+                ZIndex="12"
+                Color="{StaticResource Primary}" />
+        </Grid>
+        <VerticalStackLayout Grid.Row="0" IsEnabled="{Binding IsNotPreparing}">
+            <!--  Navigation bar  -->
+            <components:NavigationBarSecondary
+                Title="Job Information"
+                Command="{Binding BackCommand}"
+                HeightRequest="70"
+                UpdateCommand="{Binding ReloadCommand}" />
+
+
+
+            <HorizontalStackLayout
+                Margin="20,0"
+                BackgroundColor="#FFE8E8"
+                IsVisible="{Binding ShowWorkerError}"
+                Spacing="5">
+                <BoxView WidthRequest="5" Color="Red" />
+                <Image Margin="0,5">
+                    <Image.Source>
+                        <FontImageSource
+                            FontFamily="MaterialIconsOutlined"
+                            Glyph="&#xe002;"
+                            Size="16"
+                            Color="Red" />
+                    </Image.Source>
+                </Image>
+                <Label
+                    Margin="0,5"
+                    Text="There are currently no available workers"
+                    TextColor="Red" />
+            </HorizontalStackLayout>
+            <ScrollView>
+                <Grid IsVisible="{Binding IsNotBusy}" RowDefinitions="*">
+                    <VerticalStackLayout>
+                        <!--  Title  -->
+                        <Label
+                            Padding="20,20,20,0"
+                            FontAttributes="Bold"
+                            FontSize="24"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            LineBreakMode="TailTruncation"
+                            Text="{Binding CurrentJob.JobName}"
+                            TextColor="{StaticResource Primary}" />
+
+                        <!--  Status  -->
+                        <Label
+                            Padding="20,0,0,15"
+                            FontSize="22"
+                            Text="Status"
+                            TextColor="Black" />
+
+                        <Grid ColumnDefinitions="20, auto, auto, *, auto, 20">
+                            <Image Grid.Column="1" VerticalOptions="Center">
+                                <Image.Source>
+                                    <FontImageSource
+                                        x:Name="TrailingIcon"
+                                        FontFamily="MaterialIconsOutlined"
+                                        Glyph="{Binding CurrentJob.Status, Converter={StaticResource StatusToGlyphConverter}}"
+                                        Size="20"
+                                        Color="{Binding CurrentJob.Status, Converter={StaticResource StatusToColorConverter}}" />
+                                </Image.Source>
+                            </Image>
+                            <Label
+                                Grid.Column="2"
+                                Margin="10,0"
+                                FontSize="18"
+                                Text="{Binding CurrentJob.Status, Converter={StaticResource JobStatusToStringConverter}}"
+                                TextColor="Black"
+                                VerticalOptions="Center" />
+                            <HorizontalStackLayout Grid.Column="4" IsVisible="{Binding IsWaiting}">
+                                <components:IconButton
+                                    Margin="2,0"
+                                    Command="{Binding CancelCommand}"
+                                    HorizontalOptions="End"
+                                    Text="Cancel" />
+
+                                <components:IconButton
+                                    Margin="2,0"
+                                    Command="{Binding StartCommand}"
+                                    HorizontalOptions="End"
+                                    Text="Start" />
+                            </HorizontalStackLayout>
+
+                            <components:IconButton
+                                Grid.Column="4"
+                                Margin="2,0"
+                                Command="{Binding StopCommand}"
+                                HorizontalOptions="End"
+                                IsVisible="{Binding IsRunning}"
+                                Text="Stop" />
+                        </Grid>
+
+                        <BoxView Margin="20" StyleClass="Separator" />
+
+                        <!--  Description  -->
+                        <Label
+                            Padding="20,0,0,15"
+                            FontSize="22"
+                            Text="Description"
+                            TextColor="Black" />
+
+                        <Editor
+                            x:Name="DescriptionEntry"
+                            Margin="20,0,0,15"
+                            AutoSize="TextChanges"
+                            CursorPosition="{Binding CurrentJob.Description.Length}"
+                            FontSize="16"
+                            HorizontalOptions="StartAndExpand"
+                            IsReadOnly="{Binding NotEditingDescription}"
+                            MinimumHeightRequest="20"
+                            Text="{Binding CurrentJob.Description}"
+                            TextColor="{StaticResource Gray500}" />
+
+
+                        <components:IconButton
+                            Margin="20,0,0,5"
+                            Command="{Binding EditDescriptionCommand}"
+                            Glyph="&#xe3c9;"
+                            HorizontalOptions="Start"
+                            IsVisible="{Binding NotEditingDescription}"
+                            ShowTrailingIcon="True"
+                            Text="Edit" />
+
+                        <HorizontalStackLayout Margin="20,0,20,5" IsVisible="{Binding NotEditingDescription, Converter={toolkit:InvertedBoolConverter}}">
+                            <components:IconButton
+                                Command="{Binding SubmitDescriptionChangeCommand}"
+                                CommandParameter="{Binding Source={x:Reference DescriptionEntry}, Path=Text}"
+                                HorizontalOptions="Start"
+                                Text="Apply" />
+                            <components:IconButton
+                                Command="{Binding CancelDescriptionEditCommand}"
+                                HorizontalOptions="End"
+                                Text="Cancel" />
+                        </HorizontalStackLayout>
+
+                        <BoxView Margin="20" StyleClass="Separator" />
+
+                        <!--  Date Added  -->
+                        <Label
+                            Padding="20,0,0,15"
+                            FontSize="22"
+                            Text="Date Added"
+                            TextColor="Black" />
+
+                        <Label
+                            Margin="20,0"
+                            FontSize="18"
+                            Text="{Binding CurrentJob.DateAdded, Converter={StaticResource DateToFullDatetimeStringConverter}}"
+                            TextColor="Black" />
+
+                        <BoxView Margin="20" StyleClass="Separator" />
+
+                        <!--  Last Activity  -->
+                        <Label
+                            Padding="20,0,0,15"
+                            FontSize="22"
+                            Text="Last Activity"
+                            TextColor="Black" />
+
+                        <Label
+                            Margin="20,0"
+                            FontSize="18"
+                            Text="{Binding CurrentJob.LastActivity, Converter={StaticResource DateToFullDatetimeStringConverter}}"
+                            TextColor="Black" />
+
+                        <!--  Result  -->
+                        <BoxView Margin="20" StyleClass="Separator" />
+
+                        <Label
+                            Padding="20,0,0,15"
+                            FontSize="22"
+                            IsVisible="{Binding ShowResult}"
+                            Text="Result"
+                            TextColor="Black" />
+
+                        <components:IconButton
+                            Margin="20,0,0,40"
+                            Command="{Binding DownloadResultCommand}"
+                            Glyph="&#xf090;"
+                            HorizontalOptions="Start"
+                            IsVisible="{Binding ShowResult}"
+                            ShowTrailingIcon="True"
+                            Text="Download" />
+                    </VerticalStackLayout>
+                </Grid>
+            </ScrollView>
+            <ActivityIndicator
+                HorizontalOptions="FillAndExpand"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="CenterAndExpand"
+                Color="{StaticResource Primary}" />
+        </VerticalStackLayout>
+    </Grid>
+
+</ContentPage>

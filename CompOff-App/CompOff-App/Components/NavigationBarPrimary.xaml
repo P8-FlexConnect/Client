@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="CompOff_App.Components.NavigationBarPrimary"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:CompOff_App.Components"
+    xmlns:effects="clr-namespace:Xamarin.CommunityToolkit.Ports.Effects"
+    xmlns:mauiToolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:toolkit="clr-namespace:Xamarin.CommunityToolkit.Behaviors;assembly=Xamarin.CommunityToolkit.MauiCompat"
+    x:Name="this">
+
+    <Grid
+        x:Name="MainGrid"
+        Padding="12,16"
+        BackgroundColor="{StaticResource Primary}"
+        ColumnDefinitions="6*, 0.25*, 2.25*"
+        VerticalOptions="Center">
+
+        <Grid
+            Grid.Column="0"
+            BackgroundColor="Transparent"
+            ColumnDefinitions="Auto, *"
+            ColumnSpacing="10"
+            RowDefinitions="*, *">
+
+            <mauiToolkit:AvatarView
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                BackgroundColor="{StaticResource Gray200}"
+                BorderColor="Transparent"
+                Text="{Binding Initials, Source={x:Reference this}}"
+                FontSize="20"/>
+            <Label
+                Grid.Row="0"
+                Grid.Column="1"
+                FontSize="16"
+                HorizontalOptions="Fill"
+                LineBreakMode="TailTruncation"
+                MaxLines="1"
+                Text="Hello"
+                TextColor="White"
+                VerticalOptions="End" />
+            <HorizontalStackLayout Grid.Row="1" Grid.Column="1">
+                <Label
+                    Margin="0,0,3,0"
+                    FontSize="18"
+                    HorizontalOptions="Fill"
+                    LineBreakMode="TailTruncation"
+                    MaxLines="1"
+                    Text="{Binding Firstname, Source={x:Reference this}}"
+                    TextColor="White"
+                    VerticalOptions="Center" />
+
+                <Label
+                    FontSize="18"
+                    HorizontalOptions="Fill"
+                    LineBreakMode="TailTruncation"
+                    MaxLines="1"
+                    Text="{Binding Lastname, Source={x:Reference this}}"
+                    TextColor="White"
+                    VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+
+        </Grid>
+
+        <!--  Spacer  -->
+        <StackLayout Grid.RowSpan="2" Grid.Column="1" />
+
+        <StackLayout
+            x:Name="MenuHandle"
+            Grid.RowSpan="2"
+            Grid.Column="2"
+            VerticalOptions="End">
+            <Image HeightRequest="50" Source="Splash.svg" />
+        </StackLayout>
+    </Grid>
+</ContentView>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CompOff_App.Pages.Tabs.OverviewPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:CompOff_App.Components"
+    xmlns:effects="clr-namespace:Xamarin.CommunityToolkit.Ports.Effects"
+    xmlns:models="clr-namespace:Models;assembly=Models"
+    xmlns:sho="http://sharpnado.com"
+    xmlns:tabViewModels="clr-namespace:Viewmodels.Tabs;assembly=Viewmodels"
+    xmlns:templates="clr-namespace:CompOff_App.Templates"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title="OverviewPage"
+    x:DataType="tabViewModels:OverviewPageViewModel">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <components:NavigationBarPrimary
+                Firstname="{Binding CurrentUser.FirstName}"
+                Initials="{Binding CurrentUser.Initials}"
+                Lastname="{Binding CurrentUser.LastName}" />
+            <VerticalStackLayout Padding="20,0">
+                <Grid
+                    Margin="0,10,0,5"
+                    ColumnDefinitions="*, auto"
+                    IsVisible="{Binding Connected}"
+                    RowDefinitions="Auto">
+
+                    <Label
+                        x:Name="ConnectedToLabel"
+                        Grid.Column="0"
+                        FontSize="20"
+                        Text="Connected to:"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
+                    <Grid Grid.Column="1">
+                        <Image
+                            effects:TouchEffect.Command="{Binding AccordionCollapseCommand}"
+                            effects:TouchEffect.NormalBackgroundColor="Transparent"
+                            effects:TouchEffect.PressedBackgroundColor="{StaticResource Gray200}"
+                            HorizontalOptions="End"
+                            IsVisible="{Binding Collapsed}">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="MaterialIconsOutlined"
+                                    Glyph="&#xe313;"
+                                    Size="35"
+                                    Color="{StaticResource Gray300}" />
+                            </Image.Source>
+                        </Image>
+
+                        <Image
+                            effects:TouchEffect.Command="{Binding AccordionCollapseCommand}"
+                            effects:TouchEffect.NormalBackgroundColor="Transparent"
+                            effects:TouchEffect.PressedBackgroundColor="{StaticResource Gray200}"
+                            HorizontalOptions="End"
+                            IsVisible="{Binding Collapsed, Converter={StaticResource InvertedBoolConverter}}">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="MaterialIconsOutlined"
+                                    Glyph="&#xe5cd;"
+                                    Size="35"
+                                    Color="{StaticResource Gray300}" />
+                            </Image.Source>
+                        </Image>
+                    </Grid>
+                </Grid>
+                <Grid
+                    Margin="0,10,0,5"
+                    ColumnDefinitions="*, Auto"
+                    IsVisible="{Binding IsNotCollapsed}"
+                    RowDefinitions="Auto">
+
+                    <Label
+                        Grid.Column="0"
+                        HorizontalTextAlignment="Start"
+                        Text="Connection id:"
+                        TextColor="Black"
+                        VerticalTextAlignment="Start" />
+
+                    <components:IconButton
+                        Grid.Column="1"
+                        Command="{Binding DisconnectFromNetworkCommand}"
+                        Glyph="&#xe648;"
+                        HorizontalOptions="Start"
+                        IsVisible="{Binding Connected}"
+                        ShowTrailingIcon="True"
+                        Text="Disconnect"
+                        VerticalOptions="Center" />
+                </Grid>
+
+                <BoxView Margin="-20,0" StyleClass="Separator" />
+
+                <Grid Margin="0,10,0,5" ColumnDefinitions="*,Auto">
+                    <Label
+                        Grid.Column="0"
+                        FontSize="26"
+                        Text="Latest Jobs"
+                        TextColor="Black"
+                        VerticalOptions="End" />
+                    <components:IconButton
+                        Grid.Column="1"
+                        Command="{Binding ShowAllJobsCommand}"
+                        Text="Show all"
+                        VerticalOptions="End" />
+                </Grid>
+
+                <Grid
+                    Margin="20"
+                    IsVisible="{Binding ShowEmptyView}"
+                    RowDefinitions="auto, *, *">
+                    <Image Grid.Row="0" HorizontalOptions="Center">
+                        <Image.Source>
+                            <FontImageSource
+                                FontFamily="MaterialIconsOutlined"
+                                Glyph="&#xe85d;"
+                                Size="50"
+                                Color="{StaticResource Primary}" />
+                        </Image.Source>
+                    </Image>
+                    <Label
+                        Grid.Row="1"
+                        FontSize="25"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="No Jobs"
+                        TextColor="{StaticResource Primary}" />
+                    <Label
+                        Grid.Row="2"
+                        FontSize="16"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="You didn't add any jobs yet"
+                        TextColor="{StaticResource Gray400}" />
+                </Grid>
+
+                <CollectionView ItemsSource="{Binding Jobs}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Job">
+                            <templates:JobCardTemplate
+                                Margin="0,4"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type tabViewModels:OverviewPageViewModel}}, Path=JobClickedCommand}"
+                                Item="{Binding .}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <BoxView Margin="0,20" StyleClass="Separator" />
+                <Label
+                    Grid.Column="0"
+                    Margin="0,0,0,5"
+                    FontSize="26"
+                    Text="Locations"
+                    TextColor="Black"
+                    VerticalOptions="End" />
+                <CollectionView
+                    Margin="0,5"
+                    ItemSizingStrategy="MeasureAllItems"
+                    ItemTemplate="{templates:LocationCardTemplate}"
+                    ItemsLayout="HorizontalList"
+                    ItemsSource="{Binding Locations}" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

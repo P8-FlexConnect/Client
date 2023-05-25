@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="CompOff_App.Templates.JobCardTemplate"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="[components ]clr-namespace:CompOff_App.Components"
+    xmlns:converters="clr-namespace:CompOff_App.Converters"
+    xmlns:effects="clr-namespace:Xamarin.CommunityToolkit.Ports.Effects"
+    xmlns:models="clr-namespace:CompOff_App.Models"
+    xmlns:viewmodels="clr-namespace:CompOff_App.Viewmodels.Tabs"
+    x:Name="this">
+    <Border
+        BackgroundColor="{StaticResource Light}"
+        HeightRequest="60"
+        Stroke="{StaticResource Light}"
+        StrokeShape="RoundRectangle 8"
+        StrokeThickness="1">
+        <Grid
+            effects:TouchEffect.Command="{Binding Command, Source={x:Reference this}}"
+            effects:TouchEffect.CommandParameter="{Binding Item, Source={x:Reference this}}"
+            effects:TouchEffect.NormalBackgroundColor="{StaticResource Light}"
+            effects:TouchEffect.PressedBackgroundColor="{StaticResource LigtSecondary}"
+            ColumnDefinitions="10, *, auto, 40"
+            RowDefinitions="auto,*">
+            <BoxView
+                Grid.RowSpan="2"
+                Grid.Column="0"
+                Color="{Binding Item.Status, Source={x:Reference this}, Converter={converters:StatusToColorConverter}}" />
+            <Label
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="10,10,0,0"
+                FontSize="20"
+                HorizontalOptions="StartAndExpand"
+                HorizontalTextAlignment="Start"
+                LineBreakMode="TailTruncation"
+                Text="{Binding Item.JobName, Source={x:Reference this}}"
+                TextColor="Black" />
+            <Label
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="10,0,5,10"
+                FontSize="14"
+                HorizontalOptions="Start"
+                HorizontalTextAlignment="Start"
+                Text="{Binding Item.Status, Source={x:Reference this}, Converter={StaticResource JobStatusToStringConverter}}"
+                TextColor="Black"
+                VerticalOptions="End"
+                VerticalTextAlignment="End" />
+            <Label
+                Grid.Row="1"
+                Grid.Column="2"
+                Margin="5,0,5,10"
+                FontSize="14"
+                HorizontalOptions="End"
+                HorizontalTextAlignment="End"
+                Text="{Binding Item.LastActivity, Source={x:Reference this}, Converter={StaticResource DateToDayAndMonthStringConverter}}"
+                TextColor="Black"
+                VerticalOptions="End"
+                VerticalTextAlignment="End" />
+
+            <Image
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Grid.Column="3"
+                Margin="0,0,5,0"
+                HorizontalOptions="End"
+                VerticalOptions="Center">
+                <Image.Source>
+                    <FontImageSource
+                        x:Name="LeadingIcon"
+                        FontFamily="MaterialIconsOutlined"
+                        Glyph="&#xe5e1;"
+                        Color="{StaticResource Gray400}" />
+                </Image.Source>
+            </Image>
+        </Grid>
+
+    </Border>
+</ContentView>

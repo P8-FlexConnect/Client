@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="CompOff_App.Components.NavigationBarSecondary"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:CompOff_App.Components"
+    xmlns:effects="clr-namespace:Xamarin.CommunityToolkit.Ports.Effects"
+    xmlns:mauiToolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:toolkit="clr-namespace:Xamarin.CommunityToolkit.Behaviors;assembly=Xamarin.CommunityToolkit.MauiCompat"
+    x:Name="this">
+
+
+
+    <Grid
+        Padding="12,16"
+        BackgroundColor="{StaticResource Primary}"
+        ColumnDefinitions="*, auto, *"
+        VerticalOptions="Center">
+        <Border
+            x:Name="GestureContainer1"
+            Grid.Column="0"
+            Padding="5"
+            effects:TouchEffect.Command="{Binding Command, Source={x:Reference this}}"
+            effects:TouchEffect.NormalBackgroundColor="Transparent"
+            effects:TouchEffect.PressedBackgroundColor="{StaticResource Gray100}"
+            HorizontalOptions="Start"
+            Stroke="transparent"
+            StrokeShape="RoundRectangle 50"
+            VerticalOptions="End">
+            <Image>
+                <Image.Source>
+                    <FontImageSource
+                        FontFamily="MaterialIconsRegular"
+                        Glyph="&#xe5c4;"
+                        Size="30"
+                        Color="{StaticResource White}" />
+                </Image.Source>
+            </Image>
+
+        </Border>
+        <Label
+            Grid.Column="1"
+            FontSize="20"
+            HorizontalOptions="Center"
+            HorizontalTextAlignment="Center"
+            Text="{Binding Title, Source={x:Reference this}}"
+            TextColor="{StaticResource White}"
+            VerticalOptions="Center"
+            VerticalTextAlignment="Center" />
+
+        <Border
+            x:Name="GestureContainer2"
+            Grid.Column="2"
+            Padding="5"
+            effects:TouchEffect.Command="{Binding UpdateCommand, Source={x:Reference this}}"
+            effects:TouchEffect.NormalBackgroundColor="Transparent"
+            effects:TouchEffect.PressedBackgroundColor="{StaticResource Gray100}"
+            HorizontalOptions="End"
+            Stroke="transparent"
+            StrokeShape="RoundRectangle 50"
+            VerticalOptions="End">
+            <Image>
+                <Image.Source>
+                    <FontImageSource
+                        FontFamily="MaterialIconsRegular"
+                        Glyph="&#xe923;"
+                        Size="30"
+                        Color="{StaticResource White}" />
+                </Image.Source>
+            </Image>
+
+        </Border>
+    </Grid>
+</ContentView>

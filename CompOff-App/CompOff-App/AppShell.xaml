@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="CompOff_App.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:CompOff_App"
+    xmlns:tabs="clr-namespace:CompOff_App.Pages.Tabs"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="False">
+
+    <ShellItem Title="LandingPage">
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate local:LandingPage}"
+            Route="landingPage"
+            Shell.TabBarIsVisible="False" />
+    </ShellItem>
+
+    <!--  Tab navigation start  -->
+    <TabBar>
+        <Tab Title="Overview" Icon="home.png">
+            <ShellContent
+                Title="Overview"
+                ContentTemplate="{DataTemplate tabs:OverviewPage}"
+                Route="overview"
+                Shell.FlyoutBehavior="Disabled"
+                Shell.TabBarIsVisible="True" />
+        </Tab>
+        <Tab Title="Jobs" Icon="list.png">
+            <ShellContent
+                Title="Jobs"
+                ContentTemplate="{DataTemplate tabs:JobListPage}"
+                Route="joblist"
+                Shell.FlyoutBehavior="Disabled"
+                Shell.TabBarIsVisible="True" />
+        </Tab>
+        <Tab Title="New Job" Icon="newjob.png">
+            <ShellContent
+                Title="New Job"
+                ContentTemplate="{DataTemplate tabs:NewJobPage}"
+                Route="newJob"
+                Shell.FlyoutBehavior="Disabled"
+                Shell.TabBarIsVisible="True" />
+        </Tab>
+    </TabBar>
+
+</Shell>
